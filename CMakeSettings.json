@@ -1,0 +1,24 @@
+{
+    "configurations": [{
+        "name": "x86-uwp-Debug",
+        "generator": "Visual Studio 15 2017",
+        "configurationType" : "Debug",
+        "buildRoot":  "${env.LOCALAPPDATA}\\CMakeBuild\\${workspaceHash}\\build\\${name}",
+        "cmakeCommandArgs": "",
+        "buildCommandArgs": "-m -v:minimal",
+        "variables": [
+            {
+                "name": "CMAKE_TOOLCHAIN_FILE",
+                "value": "C:\\repos\\coderox\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+            },
+            {
+                "name": "CMAKE_SYSTEM_NAME",
+                "value": "WindowsStore"
+            },
+            {
+                "name": "CMAKE_SYSTEM_VERSION",
+                "value": "10.0"
+            }
+        ]
+    }]
+  }
