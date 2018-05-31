@@ -14,7 +14,9 @@ set (APP_MANIFEST_NAME Package.appxmanifest)
 
 set(EXE_NAME FlappyDXTK)
 set(SHORT_NAME ${EXE_NAME})
-set(PACKAGE_GUID "6515377e-efe4-5cdb-80df-4e0326346efc")
+set(PACKAGE_NAME "se.coderox.FlappyDXTK")
+set(PUBLISHER_NAME "coderox")
+set(PACKAGE_GUID "6515217e-dfd4-5edb-80df-4e0326346efc")
 
 configure_file(
     cmake/${APP_MANIFEST_NAME}
