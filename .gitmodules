@@ -1,0 +1,3 @@
+[submodule "dependencies/directxtk"]
+	path = dependencies/directxtk
+	url = git@github.com:coderox/directxtk.git
