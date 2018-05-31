@@ -1,9 +1,10 @@
 ﻿#pragma once
 
-#include "Common\StepTimer.h"
-#include "Common\DeviceResources.h"
-#include "Content\Sample3DSceneRenderer.h"
-#include "Content\SampleFpsTextRenderer.h"
+#include "common\StepTimer.h"
+#include "common\DeviceResources.h"
+#include "content\Sample3DSceneRenderer.h"
+#include "content\SampleFpsTextRenderer.h"
+#include "content\SampleSpriteRenderer.h"
 
 // Renders Direct2D and 3D content on the screen.
 namespace FlappyDX
@@ -28,6 +29,7 @@ namespace FlappyDX
 		// TODO: Replace with your own content renderers.
 		std::unique_ptr<FlappyDX::Sample3DSceneRenderer> m_sceneRenderer;
 		std::unique_ptr<FlappyDX::SampleFpsTextRenderer> m_fpsTextRenderer;
+		std::unique_ptr<FlappyDX::SampleSpriteRenderer> m_spriteRenderer;
 
 		// Rendering loop timer.
 		DX::StepTimer m_timer;

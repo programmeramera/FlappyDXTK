@@ -49,8 +49,10 @@ set(COMMON_FILES
 set(CONTENT_FILES
     source/content/Sample3DSceneRenderer.cpp
     source/content/SampleFpsTextRenderer.cpp
+    source/content/SampleSpriteRenderer.cpp
     source/content/Sample3DSceneRenderer.h
     source/content/SampleFpsTextRenderer.h
+    source/content/SampleSpriteRenderer.h
     source/content/ShaderStructures.h
 )
 
