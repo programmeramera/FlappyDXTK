@@ -6,7 +6,7 @@
 #include "Content\SampleFpsTextRenderer.h"
 
 // Renders Direct2D and 3D content on the screen.
-namespace DirectX_CppWinRT
+namespace FlappyDX
 {
 	class Main : public DX::IDeviceNotify
 	{
@@ -26,8 +26,8 @@ namespace DirectX_CppWinRT
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
 		// TODO: Replace with your own content renderers.
-		std::unique_ptr<DirectX_Shared::Sample3DSceneRenderer> m_sceneRenderer;
-		std::unique_ptr<DirectX_Shared::SampleFpsTextRenderer> m_fpsTextRenderer;
+		std::unique_ptr<FlappyDX::Sample3DSceneRenderer> m_sceneRenderer;
+		std::unique_ptr<FlappyDX::SampleFpsTextRenderer> m_fpsTextRenderer;
 
 		// Rendering loop timer.
 		DX::StepTimer m_timer;

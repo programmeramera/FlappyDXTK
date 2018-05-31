@@ -3,16 +3,16 @@
 #include "..\Common\DeviceResources.h"
 #include "Content\ShaderStructures.h"
 #include "..\Common\StepTimer.h"
-#include <pplawait.h>
+#include <future>
 
-namespace DirectX_Shared
+namespace FlappyDX
 {
 	// This sample renderer instantiates a basic rendering pipeline.
 	class Sample3DSceneRenderer
 	{
 	public:
 		Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources);
-		concurrency::task<void> CreateDeviceDependentResourcesAsync();
+		std::future<void> CreateDeviceDependentResourcesAsync();
 		void CreateWindowSizeDependentResources();
 		void ReleaseDeviceDependentResources();
 		void Update(DX::StepTimer const& timer);

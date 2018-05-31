@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-namespace DirectX_Shared
+namespace FlappyDX
 {
 	// Constant buffer used to send MVP matrices to the vertex shader.
 	struct ModelViewProjectionConstantBuffer

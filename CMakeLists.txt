@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(FlappyDXTK)
 
+set(CMAKE_CXX_FLAGS "/await" CACHE INTERNAL "")
+
 if(MSVC_VERSION GREATER 1700)
   set(COMPILER_VERSION "12")
 elseif(MSVC_VERSION GREATER 1600)
@@ -24,10 +26,13 @@ configure_file(
     @ONLY
 )
 
+set(DEPENDENCIES_INCLUDE_DIRECTORIES "")
+add_subdirectory(dependencies)
+
 set(SOURCE_FILES
     source/App.cpp
-#    source/Main.cpp
-#    source/Main.h
+    source/Main.cpp
+    source/Main.h
     source/pch.cpp
     source/pch.h
     ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
@@ -35,26 +40,26 @@ set(SOURCE_FILES
 )
 
 set(COMMON_FILES
-#    source/common/DeviceResources.cpp
-#    source/common/DeviceResources.h
-#    source/common/DirectXHelper.h
-#    source/common/StepTimer.h
+    source/common/DeviceResources.cpp
+    source/common/DeviceResources.h
+    source/common/DirectXHelper.h
+    source/common/StepTimer.h
 )
 
 set(CONTENT_FILES
-#    source/content/Sample3DSceneRenderer.cpp
-#    source/content/SampleFpsTextRenderer.cpp
-#    source/content/Sample3DSceneRenderer.h
-#    source/content/SampleFpsTextRenderer.h
-#    source/content/ShaderStructures.h
+    source/content/Sample3DSceneRenderer.cpp
+    source/content/SampleFpsTextRenderer.cpp
+    source/content/Sample3DSceneRenderer.h
+    source/content/SampleFpsTextRenderer.h
+    source/content/ShaderStructures.h
 )
 
 set(PIXELSHADER_FILES
-#    source/content/SamplePixelShader.hlsl
+    source/content/SamplePixelShader.hlsl
 )
 
 set(VERTEXSHADER_FILES
-#    source/content/SampleVertexShader.hlsl
+    source/content/SampleVertexShader.hlsl
 )
 
 set(ASSET_FILES ${ASSET_FILES}
@@ -70,23 +75,23 @@ set(ASSET_FILES ${ASSET_FILES}
 set_property(SOURCE ${ASSET_FILES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 set_property(SOURCE ${ASSET_FILES} PROPERTY VS_DEPLOYMENT_LOCATION "Assets")
 
-#set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
-#set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_TYPE Pixel)
-#set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_ENTRYPOINT main)
-#set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_MODEL 4.0_level_9_3)
-#set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_FLAGS "/DFLAGS_ADDED /Fh \"$(OutDir)%(Filename).h\"")
+set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_TYPE Pixel)
+set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_ENTRYPOINT main)
+set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_MODEL 4.0_level_9_3)
+set_property(SOURCE ${PIXELSHADER_FILES} PROPERTY VS_SHADER_FLAGS "/DFLAGS_ADDED /Fh \"$(OutDir)%(Filename).h\"")
 
-#set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
-#set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_TYPE Vertex)
-#set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_ENTRYPOINT main)
-#set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_MODEL 4.0_level_9_3)
-#set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_FLAGS "/DFLAGS_ADDED /Fh \"$(OutDir)%(Filename).h\"")
+set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_TYPE Vertex)
+set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_ENTRYPOINT main)
+set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_MODEL 4.0_level_9_3)
+set_property(SOURCE ${VERTEXSHADER_FILES} PROPERTY VS_SHADER_FLAGS "/DFLAGS_ADDED /Fh \"$(OutDir)%(Filename).h\"")
 
-#source_group("common" FILES ${COMMON_FILES})
-#source_group("content" FILES ${CONTENT_FILES})
-#source_group("assets" FILES ${ASSET_FILES})
+source_group("common" FILES ${COMMON_FILES})
+source_group("content" FILES ${CONTENT_FILES})
+source_group("assets" FILES ${ASSET_FILES})
 
-add_executable(${EXE_NAME} WIN32 ${SOURCE_FILES} ${COMMON_FILES} ${CONTENT_FILES} ${ASSET_FILES})
+add_executable(${EXE_NAME} WIN32 ${SOURCE_FILES} ${COMMON_FILES} ${CONTENT_FILES} ${ASSET_FILES} ${VERTEXSHADER_FILES} ${PIXELSHADER_FILES})
 
 # This is the important line, making sure to point to the header file
 target_include_directories(${EXE_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/source)
@@ -98,6 +103,6 @@ set_source_files_properties(source/pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 set_property(TARGET ${EXE_NAME} PROPERTY CXX_STANDARD 17)
 set_property(TARGET ${EXE_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 
-target_link_libraries(${EXE_NAME} d2d1)
+target_link_libraries(${EXE_NAME} d2d1.lib; d3d11.lib; dxgi.lib; windowscodecs.lib dwrite.lib directxtk)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${EXE_NAME})

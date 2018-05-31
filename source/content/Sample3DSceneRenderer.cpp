@@ -2,8 +2,9 @@
 #include "Sample3DSceneRenderer.h"
 
 #include "..\Common\DirectXHelper.h"
+#include <future>
 
-using namespace DirectX_Shared;
+using namespace FlappyDX;
 
 using namespace DirectX;
 
@@ -118,7 +119,7 @@ void Sample3DSceneRenderer::Render()
 
 	// Prepare the constant buffer to send it to the graphics device.
 	context->UpdateSubresource1(
-		winrt::get(m_constantBuffer),
+		m_constantBuffer.get(),
 		0,
 		NULL,
 		&m_constantBufferData,
@@ -130,7 +131,7 @@ void Sample3DSceneRenderer::Render()
 	// Each vertex is one instance of the VertexPositionColor struct.
 	UINT stride = sizeof(VertexPositionColor);
 	UINT offset = 0;
-	ID3D11Buffer* const vertexBuffers[] = { get(m_vertexBuffer) };
+	ID3D11Buffer* const vertexBuffers[] = { m_vertexBuffer.get() };
 	context->IASetVertexBuffers(
 		0,
 		1,
@@ -140,24 +141,24 @@ void Sample3DSceneRenderer::Render()
 		);
 
 	context->IASetIndexBuffer(
-		winrt::get(m_indexBuffer),
+		m_indexBuffer.get(),
 		DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
 		0
 		);
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	context->IASetInputLayout(winrt::get(m_inputLayout));
+	context->IASetInputLayout(m_inputLayout.get());
 
 	// Attach our vertex shader.
 	context->VSSetShader(
-		winrt::get(m_vertexShader),
+		m_vertexShader.get(),
 		nullptr,
 		0
 		);
 
 	// Send the constant buffer to the graphics device.
-	ID3D11Buffer* const constantBuffers[] = { get(m_constantBuffer) };
+	ID3D11Buffer* const constantBuffers[] = { m_constantBuffer.get() };
 	context->VSSetConstantBuffers1(
 		0,
 		1,
@@ -168,7 +169,7 @@ void Sample3DSceneRenderer::Render()
 
 	// Attach our pixel shader.
 	context->PSSetShader(
-		winrt::get(m_pixelShader),
+		m_pixelShader.get(),
 		nullptr,
 		0
 		);
@@ -187,7 +188,7 @@ void Sample3DSceneRenderer::LoadVertexShader(const std::vector<byte>& fileData) 
 			&fileData[0],
 			fileData.size(),
 			nullptr,
-			winrt::put(m_vertexShader)
+			m_vertexShader.put()
 		)
 	);
 
@@ -203,7 +204,7 @@ void Sample3DSceneRenderer::LoadVertexShader(const std::vector<byte>& fileData) 
 			ARRAYSIZE(vertexDesc),
 			&fileData[0],
 			fileData.size(),
-			winrt::put(m_inputLayout)
+			m_inputLayout.put()
 		)
 	);
 }
@@ -214,7 +215,7 @@ void Sample3DSceneRenderer::LoadPixelShader(const std::vector<byte>& fileData) {
 			&fileData[0],
 			fileData.size(),
 			nullptr,
-			winrt::put(m_pixelShader)
+			m_pixelShader.put()
 		)
 	);
 
@@ -223,7 +224,7 @@ void Sample3DSceneRenderer::LoadPixelShader(const std::vector<byte>& fileData) {
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&constantBufferDesc,
 			nullptr,
-			winrt::put(m_constantBuffer)
+			m_constantBuffer.put()
 		)
 	);
 }
@@ -251,7 +252,7 @@ void Sample3DSceneRenderer::CreateCube() {
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&vertexBufferDesc,
 			&vertexBufferData,
-			winrt::put(m_vertexBuffer)
+			m_vertexBuffer.put()
 		)
 	);
 
@@ -292,12 +293,12 @@ void Sample3DSceneRenderer::CreateCube() {
 		m_deviceResources->GetD3DDevice()->CreateBuffer(
 			&indexBufferDesc,
 			&indexBufferData,
-			winrt::put(m_indexBuffer)
+			m_indexBuffer.put()
 		)
 	);
 }
 
-concurrency::task<void> Sample3DSceneRenderer::CreateDeviceDependentResourcesAsync()
+std::future<void> Sample3DSceneRenderer::CreateDeviceDependentResourcesAsync()
 {
 	// Load shaders asynchronously.
 	auto vsFileData = co_await DX::ReadDataAsync(L"SampleVertexShader.cso");

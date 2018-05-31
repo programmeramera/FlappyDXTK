@@ -2,8 +2,7 @@
 #include "Main.h"
 #include "Common\DirectXHelper.h"
 
-using namespace DirectX_CppWinRT;
-using namespace DirectX_Shared;
+using namespace FlappyDX;
 
 // Loads and initializes application assets when the application is loaded.
 Main::Main(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
